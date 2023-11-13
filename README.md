@@ -45,7 +45,7 @@ $$\frac{{\partial \ln L\left( {y;a,\sigma } \right)}}{{\partial \sigma }} =  - \
 The model will fail during (1) estimation Frames Do Not Fall Within a Region of Free Decay, and (2) sound with a gradual rather than rapid offset.
 
 * In the first case, the damping of sound in a room cannot occur at a rate faster than the free decay. A robust strategy would be to select a threshold value such that the left tail of the probability density function of $a*$.
-* In the second case, P(a) is likely to be multimodal. the strategy then is to select the first dominant peak in $p(a^*)$.
+* In the second case, $p(a^*)$ is likely to be multimodal. the strategy then is to select the first dominant peak.
 * For a unimodal symmetric distribution with $\gamma = 0.5$ the filter will track the peak value, i.e., the median. In connected speech, where peaks cannot be clearly discriminated or the distribution is multi-modal, $\gamma$ should peaked based on the statistics of gap durations.
 
 
