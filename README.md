@@ -17,27 +17,27 @@ The model for room decay then suggests that the observations y are specified by 
 Due to the time-varying term $a\left( n \right)$, $y\left( n \right)$ independent but not identically distributed, and their probability density function is $N\left( {0,\sigma  \cdot a\left( n \right)} \right)$.
 For each estimation interval the likelihood function of y is,
 $$L\left( {y;a,\sigma } \right) = \frac{1}{{\prod\limits_{n = 0}^{N - 1} {a\left( n \right)} }} \cdot {\left( {\frac{1}{{2\pi {\sigma ^2}}}} \right)^{N/2}} \cdot \exp \left( { - \frac{{\sum\limits_{n = 0}^{N - 1} {{{\left( {\frac{{y\left( n \right)}}{{a\left( n \right)}}} \right)}^2}} }}{{2{\sigma ^2}}}} \right)$$
-N+1 unknown parameters of the model: $\left\{ {a\left[ {0,..,N - 1} \right],\,\,\sigma } \right\}$.
+N+1 unknown parameters of the model: $a\[0,...N\], \sigma$.
 Describe $a[n]$ by damped free decay $a\left[ n \right] = \exp \left( { - \frac{n}{\tau }} \right) \buildrel \Delta \over = {a^n}$,
 $$\[L\left( {y;a,\sigma } \right) = {\left( {\frac{1}{{2\pi {a^{N - 1}}{\sigma ^2}}}} \right)^{N/2}} \cdot \exp \left( { - \frac{{\sum\limits_{n = 0}^{N - 1} {{a^{ - 2n}}y{{\left( n \right)}^2}} }}{{2{\sigma ^2}}}} \right)\]$$
 
 ## Maximum Likelihood Estimator
 ### Equations
-Given the likelihood function, the parameters $$a$$ and $$\sigma$$ can be estimated using a maximum-likelihood approach,
+Given the likelihood function, the parameters $a$ and $\sigma$ can be estimated using a maximum-likelihood approach,
 $$\frac{{\partial \ln L\left( {y;a,\sigma } \right)}}{{\partial a}} = {a^{ - 1}}\left( {\frac{1}{{{\sigma ^2}}}\sum\limits_{n = 0}^{N - 1} {n \cdot {a^{ - 2n}}y{{\left( n \right)}^2} - \frac{{N\left( {N - 1} \right)}}{2}} } \right)$$
 $$\frac{{{\partial ^2}\ln L\left( {y;a,\sigma } \right)}}{{\partial {a^2}}} = \frac{{N\left( {N - 1} \right)}}{2}{a^{ - 2}} + \frac{1}{{{\sigma ^2}}}\sum\limits_{n = 0}^{N - 1} {n\left( {1 - 2n} \right) \cdot {a^{ - 2n}}y{{\left( n \right)}^2}} $$
 $$\frac{{\partial \ln L\left( {y;a,\sigma } \right)}}{{\partial \sigma }} =  - \frac{N}{\sigma } + \frac{1}{{{\sigma ^3}}}\sum\limits_{n = 0}^{N - 1} {{a^{ - 2n}}y{{\left( n \right)}^2}} $$
 
-* The geometric ratio is notably compressive, and in actual scenarios, the values of aa are expected to be proximate to 1. Conversely, $$\sigma$$ exhibits a broad range. 
+* The geometric ratio is notably compressive, and in actual scenarios, the values of a are expected to be proximate to 1. Conversely, $\sigma$ exhibits a broad range. 
 * Examining the gradient of $\frac{{\partial \ln L\left( {y;a,\sigma } \right)}}{{\partial a}}$, initiating the process with an initial value smaller than a requires the root-solving strategy to descend the gradient fast enough.
 
 ### Solution
 * Solved using numerical and iterative approach $\frac{{\partial \ln L\left( {y;a,\sigma } \right)}}{{\partial a}} = 0$; $\frac{{\partial \ln L\left( {y;a,\sigma } \right)}}{{\partial \sigma }} = 0$.
-* Estimating $$a*$$:
+* Estimating $a*$:
 	1. The root was bisected until the zero was bracketed.
 	2. The Newton–Raphson method was applied to accurate the root, ${a_{n = 1}} = {a_n} - \frac{{\frac{{\partial \ln L\left( {y;{a_n},\sigma } \right)}}{{\partial a}}}}{{\frac{{{\partial ^2}\ln L\left( {y;{a_n},\sigma } \right)}}{{\partial {a^2}}}}}$.
 
-* Estimating $$\sigma$$:
+* Estimating $\sigma$:
 	$${\sigma ^2} = \frac{1}{N}\sum\limits_{n = 0}^{N - 1} {{a^{ - 2n}}y{{\left( n \right)}^2}}$$
 
 ## Strategy for Assigning the Correct Decay Rate
