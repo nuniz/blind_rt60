@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="blind_rt60",
-    version="0.1.0-alpha",
+    version="0.1.0-a0",
     author="Asaf Zorea",
     author_email="zoreasaf@gmail.com",
     description="The BlindRT60 algorithm is used to estimate the reverberation time (RT60) "
@@ -30,9 +30,8 @@ setuptools.setup(
     extras_require=[
         "unitest",
         "pyroomacoustics",
-        "matplotlib",
         "parameterized",
         "os",
         "warnings"
-    ]
+    ],
 )
