@@ -1,12 +1,12 @@
 """
-blind_rt60 is a Python-based implementation of blind estimation of reverberation time (rt60)
+The BlindRT60 algorithm is used to estimate the reverberation time (RT60) of a room based on the recorded audio signals
 ================================================
 Documentation is available in the docstrings and
 online at https://github.com/nuniz/pyBlindRT/blob/main/README.md.
 
 Contents
 --------
-blind_rt60 imports all the functions from numpy, and in addition provides:
+blind_rt60 imports all the functions from numpy, and scipy, and in addition provides:
  BlindRT60       --- A python module that estimates rt60 based on an input signal
 
 Public API in the main TorchGating namespace

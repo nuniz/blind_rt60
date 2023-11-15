@@ -8,7 +8,8 @@ setuptools.setup(
     version="0.1.0-alpha",
     author="Asaf Zorea",
     author_email="zoreasaf@gmail.com",
-    description="Python implementation of blind estimation of reverberation time (rt60)",
+    description="The BlindRT60 algorithm is used to estimate the reverberation time (RT60) "
+                "of a room based on the recorded audio signals from microphones",
     long_description=long_description,
     long_description_content_type="text/markdown",
     license='MIT',
@@ -22,8 +23,16 @@ setuptools.setup(
     ],
     python_requires=">=3.6",
     install_requires=[
-        "matplotlib",
+        "scipy",
         "numpy",
-        "soundfile",
+        "matplotlib"
     ],
+    extras_require=[
+        "unitest",
+        "pyroomacoustics",
+        "matplotlib",
+        "parameterized",
+        "os",
+        "warnings"
+    ]
 )

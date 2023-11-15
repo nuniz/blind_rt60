@@ -1,0 +1,7 @@
+pyroomacoustics
+matplotlib
+numpy
+scipy
+parameterized
+os
+warnings
