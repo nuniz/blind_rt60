@@ -58,7 +58,7 @@ The BlindRT60 class accepts various parameters that allow customization of the e
 Contributions are welcome! If you find any issues or have suggestions for improvement, please open an issue or submit a pull request on the GitHub repository.
 
 # Lisence
-This project is licensed under the MIT License. See the [LICENSE file][LICENSE] for more information.
+This project is licensed under the MIT License. See the LICENSE file for more information.
 
 # Contact
 For any inquiries or questions, please contact zoreasaf@gmail.com.
