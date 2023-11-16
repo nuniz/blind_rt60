@@ -177,12 +177,14 @@ class BlindRT60:
         axs[0].plot(np.linspace(0.0, x_duration, len(x)), abs(x) / np.max(np.abs(x - np.mean(x))), label='Signal',
                     color='black')
         axs[0].set_xlabel('Time [sec]')
+        axs[0].set_ylabel('Samples')
         axs[0].tick_params(axis='y', labelcolor='black')
 
         # Plot the estimated reverberation times for each frame
         axs0 = axs[0].twinx()
         axs0.plot(np.linspace(0.0, x_duration, len(self.taus)), self.taus, label='Tau [sec]', color='c')
         axs0.tick_params(axis='y', labelcolor='black')
+        axs0.set_ylabel('Time Constant [sec]')
 
         # Create a histogram of taus
         bins = np.arange(ylim[0], ylim[1], 0.05)
@@ -198,6 +200,7 @@ class BlindRT60:
         # Add a title to the entire visualization
         plt.suptitle(f'Blind RT60 Estimation | RT60 {self.rt60:.2f} sec')
 
+        fig.tight_layout()
         return fig
 
     def estimate(self, x: np.ndarray, fs: int) -> float:
