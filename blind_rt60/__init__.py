@@ -2,7 +2,7 @@
 The BlindRT60 algorithm is used to estimate the reverberation time (RT60) of a room based on the recorded audio signals
 ================================================
 Documentation is available in the docstrings and
-online at https://github.com/nuniz/pyBlindRT/blob/main/README.md.
+online at https://github.com/nuniz/blind_rt60/blob/main/README.md.
 
 Contents
 --------
