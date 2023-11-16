@@ -3,5 +3,4 @@ matplotlib
 numpy
 scipy
 parameterized
-warnings
 unittest
