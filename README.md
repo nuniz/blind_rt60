@@ -1,12 +1,10 @@
 # BlindRT60
-The Blind RT60 Estimation module is a Python implementation based on the paper "Blind estimation of reverberation time" by Ratnam et al. [1]. It aims to estimate the reverberation time (RT60) of an input audio signal.
+The Blind RT60 Estimation module, based on Ratnam et al.'s paper [1], estimates the reverberation time (RT60) for input audio signals in Python.
+The evaluation of the BlindRT60 class involves using a speech utterance from the NOIZEUS database [2], which is a repository of a noisy speech corpus. 
 
 [1] Ratnam, Rama & Jones, Douglas & Wheeler, Bruce & O'Brien, William & Lansing, Charissa & Feng, Albert. (2003). Blind estimation of reverberation time. The Journal of the Acoustical Society of America. 114. 2877-92. 10.1121/1.1616578. 
 
-For the evaluation, a speech utterance was taken from the
-[NOIZEUS database](https://ecs.utdallas.edu/loizou/speech/noizeus/) [3], a repository of noisy speech corpus.
-
-![RT60]([/supplementary_material/graphs/BlindRT60.png)
+[2] Hu, Y. and Loizou, P. (2007). “Subjective evaluation and comparison of speech enhancement algorithms,” Speech Communication, 49, 588-601.
 
 ## Installation
 ```
@@ -31,6 +29,14 @@ rt60_estimate = estimator(x, fs)
 fig = estimator.visualize(x, fs)
 plt.show()
 ```
+
+## Evaluation
+The primary functionality of the BlindRT60 class was tested by simulating scenarios with different decay rates for generated decaying chirp signals and speech. The tests make use of the pyroomacoustics library to create a simulated room with a source and microphones, facilitating a comparison between the estimated RT60 using BlindRT60 and the RT60 calculated by the Schroeder method.
+
+The provided figure illustrates the Blind RT60 Estimation, showcasing a speech trace, continuous decay rate estimation, and a histogram of estimated decay rates. 
+<br/>
+![RT60](supplementary_material/graphs/BlindRT60.png)
+
 
 ## Parameters
 The BlindRT60 class accepts various parameters that allow customization of the estimation process. Here are the key parameters:
