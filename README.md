@@ -6,7 +6,7 @@ The Blind RT60 Estimation module is a Python implementation based on the paper "
 For the evaluation, a speech utterance was taken from the
 [NOIZEUS database](https://ecs.utdallas.edu/loizou/speech/noizeus/) [3], a repository of noisy speech corpus.
 
-![RT60 Evaluation]([https://github.com/nuniz/TorchSpectralGating/blob/main/supplementary_material/graphs/sp09_car_sn5_stationary.png]([https://github.com/nuniz/TorchSpectralGating/blob/main/supplementary_material/graphs/sp09_car_sn5_stationary.png))
+![RT60]([https://github.com/nuniz/TorchSpectralGating/blob/main/supplementary_material/graphs/sp09_car_sn5_stationary.png)
 
 ## Installation
 ```
@@ -99,6 +99,7 @@ The model will fail during (1) estimation Frames Do Not Fall Within a Region of 
 * In the first case, the damping of sound in a room cannot occur at a rate faster than the free decay. A robust strategy would be to select a threshold value such that the left tail of the probability density function of $a*$.
 * In the second case, $p(a^*)$ is likely to be multimodal. the strategy then is to select the first dominant peak.
 * For a unimodal symmetric distribution with $\gamma = 0.5$ the filter will track the peak value, i.e., the median. In connected speech, where peaks cannot be clearly discriminated or the distribution is multi-modal, $\gamma$ should peaked based on the statistics of gap durations.
+
 
 
 
