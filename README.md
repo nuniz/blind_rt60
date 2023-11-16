@@ -6,6 +6,8 @@ The Blind RT60 Estimation module is a Python implementation based on the paper "
 For the evaluation, a speech utterance was taken from the
 [NOIZEUS database](https://ecs.utdallas.edu/loizou/speech/noizeus/) [3], a repository of noisy speech corpus.
 
+![RT60 Evaluation]([https://github.com/nuniz/TorchSpectralGating/blob/main/supplementary_material/graphs/sp09_car_sn5_stationary.png]([https://github.com/nuniz/TorchSpectralGating/blob/main/supplementary_material/graphs/sp09_car_sn5_stationary.png))
+
 ## Installation
 ```
 pip install blind_rt60
