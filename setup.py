@@ -27,11 +27,7 @@ setuptools.setup(
         "numpy",
         "matplotlib"
     ],
-    extras_require=[
-        "unitest",
-        "pyroomacoustics",
-        "parameterized",
-        "os",
-        "warnings"
-    ],
+    extras_require={
+        "dev": ["unitest", "pyroomacoustics", "parameterized", "os", "warnings"],
+    },
 )

@@ -22,3 +22,4 @@
 /.idea/pyBlindRT.iml
 /.idea/vcs.xml
 /local_history.patch
+/notebooks/.ipynb_checkpoints/

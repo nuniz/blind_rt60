@@ -1,10 +1,60 @@
 # BlindRT60
-Python implementation of 'Blind estimation of reverberation time' [[1]](https://www.researchgate.net/publication/5923452_Blind_estimation_of_reverberation_time).
+The Blind RT60 Estimation module is a Python implementation based on the paper "Blind estimation of reverberation time" by Ratnam et al. [1]. It aims to estimate the reverberation time (RT60) of an input audio signal.
 
 [1] Ratnam, Rama & Jones, Douglas & Wheeler, Bruce & O'Brien, William & Lansing, Charissa & Feng, Albert. (2003). Blind estimation of reverberation time. The Journal of the Acoustical Society of America. 114. 2877-92. 10.1121/1.1616578. 
 
 For the evaluation, a speech utterance was taken from the
 [NOIZEUS database](https://ecs.utdallas.edu/loizou/speech/noizeus/) [3], a repository of noisy speech corpus.
+
+## Installation
+```
+pip install blind_rt60
+```
+
+## Basic Usage
+```
+from blind_rt60 import BlindRT60
+from scipy.io import wavfile
+
+# Create an instance of the BlindRT60 estimator
+estimator = BlindRT60()
+
+# Load your audio signal (x) and its sampling frequency (fs)
+# Example: fs, x = wavfile.read("path/to/audio/file.wav")
+
+# Estimate the RT60
+rt60_estimate = estimator(x, fs)
+
+# Visualize the results
+fig = estimator.visualize(x, fs)
+plt.show()
+```
+
+## Parameters
+The BlindRT60 class accepts various parameters that allow customization of the estimation process. Here are the key parameters:
+
+* fs: Sample rate of the audio signal.
+* framelen: Length of each analysis frame in seconds.
+* hop: Hop size between analysis frames in seconds.
+* percentile: Pre-specified percentile value for RT60 estimation.
+* a_init: Initial value for the decay rate parameter.
+* sigma2_init: Initial value for the signal variance parameter.
+* max_itr: Maximum number of iterations for convergence.
+* max_err: Maximum error for convergence.
+* a_range: Range of valid values for the decay rate parameter.
+* bisected_itr: Number of iterations for the bisection method.
+* sigma2_range: Range of valid values for the signal variance parameter.
+* verbose: Enable verbose output for each iteration.
+
+# Contributions
+Contributions are welcome! If you find any issues or have suggestions for improvement, please open an issue or submit a pull request on the GitHub repository.
+
+# Lisence
+This project is licensed under the MIT License. See the LICENSE file for more information.
+
+# Contact
+For any inquiries or questions, please contact zoreasaf@gmail.com.
+
 
 # Notes
 
@@ -47,5 +97,6 @@ The model will fail during (1) estimation Frames Do Not Fall Within a Region of 
 * In the first case, the damping of sound in a room cannot occur at a rate faster than the free decay. A robust strategy would be to select a threshold value such that the left tail of the probability density function of $a*$.
 * In the second case, $p(a^*)$ is likely to be multimodal. the strategy then is to select the first dominant peak.
 * For a unimodal symmetric distribution with $\gamma = 0.5$ the filter will track the peak value, i.e., the median. In connected speech, where peaks cannot be clearly discriminated or the distribution is multi-modal, $\gamma$ should peaked based on the statistics of gap durations.
+
 
 
