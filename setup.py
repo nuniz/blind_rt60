@@ -28,6 +28,6 @@ setuptools.setup(
         "matplotlib"
     ],
     extras_require={
-        "dev": ["unitest", "pyroomacoustics", "parameterized"],
+        "dev": ["pyroomacoustics", "parameterized"],
     },
 )
