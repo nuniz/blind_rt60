@@ -100,7 +100,7 @@ $$\frac{{\partial \ln L\left( {y;a,\sigma } \right)}}{{\partial \sigma }} =  - \
 
 ## Strategy for Assigning the Correct Decay Rate
 
-The model will fail during (1) estimation Frames Do Not Fall Within a Region of Free Decay, and (2) sound with a gradual rather than rapid offset.
+The model will fail during (1) estimation frames that do not fall within a region of free decay, and (2) sound with a gradual rather than rapid offset.
 
 * In the first case, the damping of sound in a room cannot occur at a rate faster than the free decay. A robust strategy would be to select a threshold value such that the left tail of the probability density function of $a*$.
 * In the second case, $p(a^*)$ is likely to be multimodal. the strategy then is to select the first dominant peak.
