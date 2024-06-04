@@ -5,6 +5,8 @@ import numpy as np
 import scipy.signal as sig
 from matplotlib.figure import Figure
 
+from .utils import calculate_decay_time
+
 # Constants
 FRAME_LENGTH = 200e-3  # Frame length in seconds
 EPS = np.finfo('float').eps
@@ -202,6 +204,11 @@ class BlindRT60:
 
         fig.tight_layout()
         return fig
+
+    def calculate_rtx(self, decay_db):
+        if self.tau is None:
+            raise ValueError("tau has to be estimated first.")
+        return calculate_decay_time(decay_db, self.tau)
 
     def estimate(self, x: np.ndarray, fs: int) -> float:
         """

@@ -24,4 +24,5 @@ Blind estimation of reverberation time. The Journal of the Acoustical Society of
 """
 
 from .estimation import BlindRT60
+from .utils import calculate_decay_time
 from .version import __version__
