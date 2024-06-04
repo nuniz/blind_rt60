@@ -24,5 +24,5 @@ def calculate_decay_time(decay_db: float, tau: float) -> float:
     if not np.isfinite(decay_db):
         raise ValueError("decay_db must be a finite number (not NaN or Inf).")
 
-    decay_time = -decay_db / (20 * np.log10(np.e ** -1)) * tau
+    decay_time = -decay_db / (20 * np.log10(np.e**-1)) * tau
     return decay_time

@@ -9,19 +9,30 @@ from .utils import calculate_decay_time
 
 # Constants
 FRAME_LENGTH = 200e-3  # Frame length in seconds
-EPS = np.finfo('float').eps
+EPS = np.finfo("float").eps
 
 
 class UpdateMethod:
-    NEWTON = 'newton'
-    BISECTED = 'bisected'
+    NEWTON = "newton"
+    BISECTED = "bisected"
 
 
 class BlindRT60:
-    def __init__(self, fs: int = 8000, framelen: Optional[float] = None, hop: Optional[float] = None,
-                 percentile: int = 50., a_init: int = 0.99, sigma2_init: int = 0.5, max_itr: int = 1000,
-                 max_err: float = 1e-1, a_range: tuple = (0.99, 0.999999999), bisected_itr: int = 8,
-                 sigma2_range: tuple = (0., np.inf), verbose: bool = False):
+    def __init__(
+        self,
+        fs: int = 8000,
+        framelen: Optional[float] = None,
+        hop: Optional[float] = None,
+        percentile: int = 50.0,
+        a_init: int = 0.99,
+        sigma2_init: int = 0.5,
+        max_itr: int = 1000,
+        max_err: float = 1e-1,
+        a_range: tuple = (0.99, 0.999999999),
+        bisected_itr: int = 8,
+        sigma2_range: tuple = (0.0, np.inf),
+        verbose: bool = False,
+    ):
         """
         Estimate the reverberation time (RT60) from the input signal.
 
@@ -40,7 +51,9 @@ class BlindRT60:
         - sigma2_range: Range of valid values for 'sigma2'
         """
         self.fs = fs
-        self.framelen = int(self.fs * FRAME_LENGTH) if framelen is None else int(self.fs * framelen)
+        self.framelen = (
+            int(self.fs * FRAME_LENGTH) if framelen is None else int(self.fs * framelen)
+        )
         self.hop = int(self.framelen) // 4 if hop is None else int(self.fs * hop)
         self.percentile = percentile
         self.a_init = a_init
@@ -85,14 +98,17 @@ class BlindRT60:
         """
         Check the validity of input parameters.
         """
-        assert 0. <= self.percentile <= 100., 'gamma should be between 0 to 100'
-        assert self.framelen > 0, f'sigma2 should be larger than 0'
-        assert 0. < self.hop <= self.framelen, 'hop must be between 0 to framelen'
-        assert self.a_range[0] <= self.a_init < self.a_range[
-            1], f'a should be between {self.a_range[0]} to {self.a_range[1]}'
-        assert self.sigma2_init > 0., f'sigma2 should be larger than 0'
+        assert 0.0 <= self.percentile <= 100.0, "gamma should be between 0 to 100"
+        assert self.framelen > 0, f"sigma2 should be larger than 0"
+        assert 0.0 < self.hop <= self.framelen, "hop must be between 0 to framelen"
+        assert (
+            self.a_range[0] <= self.a_init < self.a_range[1]
+        ), f"a should be between {self.a_range[0]} to {self.a_range[1]}"
+        assert self.sigma2_init > 0.0, f"sigma2 should be larger than 0"
 
-    def likelihood_derivative(self, a: np.ndarray, x_frames: np.ndarray) -> (np.ndarray, np.ndarray, np.ndarray):
+    def likelihood_derivative(
+        self, a: np.ndarray, x_frames: np.ndarray
+    ) -> (np.ndarray, np.ndarray, np.ndarray):
         """
         Calculate the first and second derivatives of the log-likelihood function with respect to 'a'.
 
@@ -105,13 +121,23 @@ class BlindRT60:
         - d2l_da2: Second derivative of the log-likelihood with respect to 'a'
         - sigma2: Estimated variance of the signal
         """
-        a_x_prod = a ** (-2 * self.n) * x_frames ** 2
-        sigma2 = np.clip(np.mean(a_x_prod, axis=1, keepdims=True), a_min=self.sigma2_range[0],
-                         a_max=self.sigma2_range[1])
-        dl_da = 1 / (a + EPS) * (
-                1 / (sigma2 + EPS) * np.sum(self.n * a_x_prod, axis=1, keepdims=True) - self.framelen_fac)
-        d2l_da2 = self.framelen_fac / (a ** 2 + EPS) + 1 / (sigma2 + EPS) * np.sum(
-            (1 - 2 * self.n) * self.n * a_x_prod, axis=1, keepdims=True)
+        a_x_prod = a ** (-2 * self.n) * x_frames**2
+        sigma2 = np.clip(
+            np.mean(a_x_prod, axis=1, keepdims=True),
+            a_min=self.sigma2_range[0],
+            a_max=self.sigma2_range[1],
+        )
+        dl_da = (
+            1
+            / (a + EPS)
+            * (
+                1 / (sigma2 + EPS) * np.sum(self.n * a_x_prod, axis=1, keepdims=True)
+                - self.framelen_fac
+            )
+        )
+        d2l_da2 = self.framelen_fac / (a**2 + EPS) + 1 / (sigma2 + EPS) * np.sum(
+            (1 - 2 * self.n) * self.n * a_x_prod, axis=1, keepdims=True
+        )
         return dl_da, d2l_da2, sigma2
 
     def step(self, x_frames: np.ndarray, method: str) -> np.ndarray:
@@ -148,7 +174,9 @@ class BlindRT60:
                 self.a_lower[changed_sign] = middle_a[changed_sign]
                 self.a_upper[not_changed_sign] = middle_a[not_changed_sign]
         else:
-            raise ValueError(f'method {method} should be {UpdateMethod.NEWTON} or {UpdateMethod.BISECTED}')
+            raise ValueError(
+                f"method {method} should be {UpdateMethod.NEWTON} or {UpdateMethod.BISECTED}"
+            )
 
         self.a = np.clip(self.a, a_min=self.a_range[0], a_max=self.a_range[1])
         dl_da, d2l_da2, self.sigma2 = self.likelihood_derivative(self.a, x_frames)
@@ -176,31 +204,40 @@ class BlindRT60:
         fig, axs = plt.subplots(nrows=1, ncols=2, width_ratios=(3, 1), sharey=True)
 
         # Plot the input signal normalized to its maximum value
-        axs[0].plot(np.linspace(0.0, x_duration, len(x)), abs(x) / np.max(np.abs(x - np.mean(x))), label='Signal',
-                    color='black')
-        axs[0].set_xlabel('Time [sec]')
-        axs[0].set_ylabel('Samples')
-        axs[0].tick_params(axis='y', labelcolor='black')
+        axs[0].plot(
+            np.linspace(0.0, x_duration, len(x)),
+            abs(x) / np.max(np.abs(x - np.mean(x))),
+            label="Signal",
+            color="black",
+        )
+        axs[0].set_xlabel("Time [sec]")
+        axs[0].set_ylabel("Samples")
+        axs[0].tick_params(axis="y", labelcolor="black")
 
         # Plot the estimated reverberation times for each frame
         axs0 = axs[0].twinx()
-        axs0.plot(np.linspace(0.0, x_duration, len(self.taus)), self.taus, label='Tau [sec]', color='c')
-        axs0.tick_params(axis='y', labelcolor='black')
-        axs0.set_ylabel('Time Constant [sec]')
+        axs0.plot(
+            np.linspace(0.0, x_duration, len(self.taus)),
+            self.taus,
+            label="Tau [sec]",
+            color="c",
+        )
+        axs0.tick_params(axis="y", labelcolor="black")
+        axs0.set_ylabel("Time Constant [sec]")
 
         # Create a histogram of taus
         bins = np.arange(ylim[0], ylim[1], 0.05)
-        axs[1].hist(self.taus, bins=bins, orientation='horizontal', color='c')
-        axs[1].axhline(self.tau, xmin=0.0, color='black')
-        axs[1].text(2, self.tau + 0.05, f'Tau {self.tau:.2f} sec', color='black')
-        axs[1].set_xlabel('Counts')
+        axs[1].hist(self.taus, bins=bins, orientation="horizontal", color="c")
+        axs[1].axhline(self.tau, xmin=0.0, color="black")
+        axs[1].text(2, self.tau + 0.05, f"Tau {self.tau:.2f} sec", color="black")
+        axs[1].set_xlabel("Counts")
 
         # Set y-axis limits for all subplots
         for ax in [axs[0], axs[1], axs0]:
             ax.set_ylim(ylim)
 
         # Add a title to the entire visualization
-        plt.suptitle(f'Blind RT60 Estimation | RT60 {self.rt60:.2f} sec')
+        plt.suptitle(f"Blind RT60 Estimation | RT60 {self.rt60:.2f} sec")
 
         fig.tight_layout()
         return fig
@@ -224,13 +261,28 @@ class BlindRT60:
         self.sanity_check()
         assert np.ndim(x) == 1
 
-        x = sig.decimate(x, int(fs // self.fs)) if fs > self.fs else sig.resample(x, int(len(x) * self.fs / fs))
-        x_frames = np.array([x[i:i + self.framelen] for i in range(0, len(x) - self.framelen + 1, self.hop)])
+        x = (
+            sig.decimate(x, int(fs // self.fs))
+            if fs > self.fs
+            else sig.resample(x, int(len(x) * self.fs / fs))
+        )
+        x_frames = np.array(
+            [
+                x[i : i + self.framelen]
+                for i in range(0, len(x) - self.framelen + 1, self.hop)
+            ]
+        )
         self.init_states(x_frames.shape[0])
 
         itr = 0
-        while itr < self.bisected_itr or (itr < self.max_itr and np.any(np.bitwise_not(self.converged))):
-            method = UpdateMethod.BISECTED if itr < self.bisected_itr else UpdateMethod.NEWTON
+        while itr < self.bisected_itr or (
+            itr < self.max_itr and np.any(np.bitwise_not(self.converged))
+        ):
+            method = (
+                UpdateMethod.BISECTED
+                if itr < self.bisected_itr
+                else UpdateMethod.NEWTON
+            )
             dl_da = self.step(x_frames, method=method)
             self.converged = np.abs(dl_da) <= self.max_err
             itr += 1
@@ -238,10 +290,12 @@ class BlindRT60:
         self.taus = -1 / np.log(self.a) / self.fs
         self.taus[np.bitwise_not(self.converged)] = np.nan
         self.tau = np.percentile(self.taus[self.converged], q=self.percentile)
-        self.rt60 = -3 * self.tau / np.log10(np.e ** -1)
+        self.rt60 = -3 * self.tau / np.log10(np.e**-1)
 
         if self.verbose:
-            print(f'Iteration {itr} / {self.max_itr}; rt60 {self.rt60:.2f} sec; tau {self.tau:.2f} sec')
+            print(
+                f"Iteration {itr} / {self.max_itr}; rt60 {self.rt60:.2f} sec; tau {self.tau:.2f} sec"
+            )
 
         return self.rt60
 
