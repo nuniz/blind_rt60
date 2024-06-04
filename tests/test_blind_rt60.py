@@ -78,6 +78,21 @@ class TestRT60(unittest.TestCase):
         blind_rt60 = BlindRT60(fs=fs_estimator)
         self.assertGreater(blind_rt60(x1, fs_sig), blind_rt60(x2, fs_sig))
 
+    def test_rtx_calculation(self, decay_rate: float = 1, fs_sig: int = 8000, fs_estimator: int = 8000):
+        """
+        Test the basic functionality of BlindRT60.
+
+        Args:
+            fs_sig (int): Signal sampling frequency.
+            fs_estimator (int): Estimator sampling frequency.
+            decay_rate (float): decay rate of the chirp signal (dB)
+        """
+        x = decaying_chirp(fs_sig, decay_rate=decay_rate)
+        blind_rt60 = BlindRT60(fs=fs_estimator)
+        rt60 = blind_rt60(x, fs_sig)
+        rt_60_calc = blind_rt60.calculate_rtx(60)
+        self.assertEqual(rt60, rt_60_calc)
+
     @parameterized.expand([
         param(rt60_tgt=0.3, max_err=0.25),
         param(rt60_tgt=0.8, max_err=0.25),
