@@ -12,14 +12,9 @@
 *.ogg
 *.flac
 
-/blind_rt60.egg-info/
-/build/
-/dist/
-/.idea/misc.xml
-/.idea/modules.xml
-/.idea/inspectionProfiles/profiles_settings.xml
-/.idea/inspectionProfiles/Project_Default.xml
-/.idea/pyBlindRT.iml
-/.idea/vcs.xml
+/blind_rt60.egg-info/*
+/build/*
+/dist/*
+/.idea/*
 /local_history.patch
-/notebooks/.ipynb_checkpoints/
+/notebooks/.ipynb_checkpoints/*
